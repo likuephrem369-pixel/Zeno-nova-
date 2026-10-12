@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zeno Nova AI</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 24px;
+      background: #080b14; color: white;
+      font-family: Arial, sans-serif;
+    }
+    .app { max-width: 700px; margin: auto; }
+    h1 { font-size: 38px; margin-bottom: 8px; }
+    .glow { color: #9c8cff; }
+    p { color: #b8bfd3; line-height: 1.6; }
+    .card {
+      background: #121829; border: 1px solid #303951;
+      border-radius: 18px; padding: 20px; margin-top: 22px;
+    }
+    textarea, input, select, button {
+      width: 100%; padding: 14px; margin-top: 10px;
+      border-radius: 10px; font-size: 16px;
+    }
+    textarea, input, select {
+      color: white; background: #080d19;
+      border: 1px solid #39435d;
+    }
+    button {
+      border: 0; background: #8270ff; color: white;
+      font-weight: bold; cursor: pointer;
+    }
+    .secondary { background: #242e45; }
+    #result { white-space: pre-wrap; overflow-wrap: anywhere; }
+    small { color: #9ba6c0; }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <h1>✦ Zeno <span class="glow">Nova</span></h1>
+    <p>Your creative universe. Imagine it. Create it.</p>
+
+    <section class="card">
+      <h2>🎬 AI Video Studio</h2>
+      <p>Describe the video you want to create.</p>
+      <textarea id="videoPrompt" rows="4"
+        placeholder="A luxury car driving through a futuristic city at night..."></textarea>
+      <button onclick="makePrompt('video')">Prepare video prompt</button>
+    </section>
+
+    <section class="card">
+      <h2>🖼️ AI Image Studio</h2>
+      <p>Describe the image you imagine.</p>
+      <textarea id="imagePrompt" rows="3"
+        placeholder="A cinematic mountain landscape at sunset..."></textarea>
+      <button onclick="makePrompt('image')">Prepare image prompt</button>
+    </section>
+
+    <section class="card">
+      <h2>🌍 AI Assistant</h2>
+      <p>Write a question or choose a language for your future AI assistant.</p>
+      <select id="language">
+        <option>English</option>
+        <option>Amharic</option>
+        <option>Hebrew</option>
+        <option>Arabic</option>
+        <option>French</option>
+      </select>
+      <textarea id="question" rows="3"
+        placeholder="Ask a question or describe your idea..."></textarea>
+      <button class="secondary" onclick="makePrompt('assistant')">
+        Prepare my question
+      </button>
+    </section>
+
+    <section class="card">
+      <h2>✨ Your workspace</h2>
+      <div id="result">Your prepared prompt will appear here.</div>
+      <button class="secondary" onclick="copyResult()">Copy text</button>
+      <small>This first version prepares prompts. Real AI generation
+      needs a connected AI service.</small>
+    </section>
+  </main>
+
+  <script>
+    function makePrompt(type) {
+      let text = "";
+      if (type === "video") {
+        text = document.getElementById("videoPrompt").value.trim();
+        if (text) text = "Create a cinematic video of: " + text;
+      } else if (type === "image") {
+        text = document.getElementById("imagePrompt").value.trim();
+        if (text) text = "Create a detailed, high-quality image of: " + text;
+      } else {
+        const lang = document.getElementById("language").value;
+        text = document.getElementById("question").value.trim();
+        if (text) text = "Respond in " + lang + ": " + text;
+      }
+      document.getElementById("result").textContent =
+        text || "Please enter a description first.";
+    }
+    async function copyResult() {
+      const text = document.getElementById("result").textContent;
+      try {
+        await navigator.clipboard.writeText(text);
+        alert("Copied!");
+      } catch {
+        alert("Please select the text and copy it manually.");
+      }
+    }
+  </script>
+</body>
+</html>
